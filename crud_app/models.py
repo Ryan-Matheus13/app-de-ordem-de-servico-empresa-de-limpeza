@@ -23,6 +23,10 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nome_completo
 
+    def slug(self):
+        return slugify(self.title)
+
+
 class Servico(models.Model):
     # Dados do serviço
     nome_do_servico = models.CharField(max_length=60)
@@ -32,6 +36,9 @@ class Servico(models.Model):
     # Registro
     data_do_registro = models.DateTimeField(auto_now_add=True)
     registrado_por = models.ForeignKey(Funcionario, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.nome_do_servico
 
 class Atendimento(models.Model):
     SITUACAO_CHOICES = (
@@ -45,7 +52,11 @@ class Atendimento(models.Model):
     data_do_servico = models.DateTimeField() 
     situacao = models.CharField(max_length=12, choices=SITUACAO_CHOICES)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
+    desconto = models.DecimalField(max_digits=2, decimal_places=0, help_text='Desconto até 10%\n', null=True)
 
     # Registro
     data_do_registro = models.DateTimeField(auto_now_add=True)
     registrado_por = models.ForeignKey(Funcionario, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f'Atendimento #{self.id}'
