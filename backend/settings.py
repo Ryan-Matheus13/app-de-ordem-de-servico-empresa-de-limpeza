@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3rd Apps
-
+    'import_export',
     # Local Apps
     'equipe',
     'crud_app',
@@ -130,3 +130,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User model
 AUTH_USER_MODEL = "equipe.Funcionario"
+
+# Import export Lib
+IMPORT_EXPORT_USE_TRANSACTIONS = True

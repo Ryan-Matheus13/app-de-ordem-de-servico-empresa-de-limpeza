@@ -1,6 +1,8 @@
 from django.contrib import admin
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Atendimento, Cliente, Servico
+from crud_app.forms import descontoForm
 
 @admin.register(Servico)
 class ServicoAdmin(admin.ModelAdmin):
@@ -28,15 +30,20 @@ class ClienteAdmin(admin.ModelAdmin):
         })
     )
 
+
 @admin.register(Atendimento)
-class AtendimentoAdmin(admin.ModelAdmin):
-    list_display = ("id", "cliente", "servico", "valor_final", "situacao","data_do_servico", "data_do_registro", "registrado_por")
+class AtendimentoAdmin(ImportExportModelAdmin):
+    readonly_fields = ("valor_final",)
+    list_display = ("id", "cliente", "servico", "valor_final", "situacao","data_do_servico", "registrado_por")
     list_display_links = ("cliente",)
     raw_id_fields = ['cliente']
+    ordering = ('data_do_registro',)
+    list_filter = ('data_do_registro',)
+    form = descontoForm
     fieldsets = (
         ('Dados do atendimento', {
             'classes': ('extrapretty'),
-            'fields': ('cliente', 'servico', 'desconto', 'data_do_servico', 'situacao')
+            'fields': ('cliente', 'servico', 'desconto', 'valor_final', 'data_do_servico', 'situacao')
         }),
     )
     def valor_final(self, obj: Atendimento) -> str:

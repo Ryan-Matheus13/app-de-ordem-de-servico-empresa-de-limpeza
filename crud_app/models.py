@@ -54,7 +54,7 @@ class Atendimento(models.Model):
     situacao = models.CharField(max_length=12, choices=SITUACAO_CHOICES)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     desconto = models.DecimalField(max_digits=2, decimal_places=0, help_text='Desconto até 10%\n', null=True)
-    valor_total = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    valor_total = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, default=0)
 
     # Registro
     data_do_registro = models.DateTimeField(auto_now_add=True)
