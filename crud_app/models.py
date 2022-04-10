@@ -23,9 +23,6 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nome_completo
 
-    def slug(self):
-        return slugify(self.title)
-
 
 class Servico(models.Model):
     

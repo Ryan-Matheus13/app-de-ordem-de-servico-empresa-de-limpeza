@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Atendimentos{% endblock %}
+
+{% block content %}
+<h3>Clientes</h3>
+<a href="{% url 'cadastrar-cliente' %}" class="btn btn-primary sm">Cadastrar cliente</a>
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>nome completo</th>
+            <th>email</th>
+            <th>logradouro</th>
+            <th>numero</th>
+            <th>bairro</th>
+            <th>cidade</th>
+            <th>estado</th>
+            <th>opções</th>
+        </tr>
+        {% for cliente in object_list %}
+        <tr>
+            <td>{{ cliente.nome_completo }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.logradouro }}</td>
+            <td>{{ cliente.numero }}</td>
+            <td>{{ cliente.bairro }}</td>
+            <td>{{ cliente.cidade }}</td>
+            <td>{{ cliente.estado }}</td>
+            <td>
+                <a href="{% url 'editar-cliente' cliente.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
+                <a href="{% url 'deletar-cliente' cliente.pk %}" class="btn btn-danger btn-sm" title="Excluir">X</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Nenhum atendimento registrado ainda</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

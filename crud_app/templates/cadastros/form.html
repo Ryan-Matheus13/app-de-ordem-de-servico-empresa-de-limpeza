@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Cadastro{% endblock %}
+{% block content %}
+    <h3>Cadastro</h3>
+    <p>Preencha todos os campos obrigatórios.</p>
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+        <hr>
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+    </form>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(() => {
+        $("input[name*=data]").attr("type", "date")
+    })
+</script>
+{% endblock %}

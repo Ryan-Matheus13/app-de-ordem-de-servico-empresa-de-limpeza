@@ -4,9 +4,11 @@ from import_export.admin import ImportExportModelAdmin
 from .models import Atendimento, Cliente, Servico
 from crud_app.forms import descontoForm
 
+
 @admin.register(Servico)
 class ServicoAdmin(admin.ModelAdmin):
-    list_display = ("id", "nome_do_servico", "valor", "descricao", "data_do_registro")
+    list_display = ("id", "nome_do_servico", "valor",
+                    "descricao", "data_do_registro")
     list_display_links = ("nome_do_servico",)
     fieldsets = (
         ('Dados do serviços', {
@@ -14,6 +16,7 @@ class ServicoAdmin(admin.ModelAdmin):
             'fields': ('nome_do_servico', 'valor', 'descricao')
         }),
     )
+
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
@@ -32,9 +35,10 @@ class ClienteAdmin(admin.ModelAdmin):
 
 
 @admin.register(Atendimento)
-class AtendimentoAdmin(ImportExportModelAdmin):
+class AtendimentoAdmin(admin.ModelAdmin):
     readonly_fields = ("valor_final",)
-    list_display = ("id", "cliente", "servico", "valor_final", "situacao","data_do_servico", "registrado_por")
+    list_display = ("id", "cliente", "servico", "valor_final",
+                    "situacao", "data_do_servico", "registrado_por")
     list_display_links = ("cliente",)
     raw_id_fields = ['cliente']
     ordering = ('data_do_registro',)
@@ -46,6 +50,7 @@ class AtendimentoAdmin(ImportExportModelAdmin):
             'fields': ('cliente', 'servico', 'desconto', 'valor_final', 'data_do_servico', 'situacao')
         }),
     )
+
     def valor_final(self, obj: Atendimento) -> str:
         return f'R$ {(obj.valor_total)}'
 
@@ -54,4 +59,3 @@ class AtendimentoAdmin(ImportExportModelAdmin):
         usuario = request.user
         obj.registrado_por = usuario
         super(AtendimentoAdmin, self).save_model(request, obj, form, change)
-
