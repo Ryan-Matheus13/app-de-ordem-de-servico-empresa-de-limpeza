@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     # 3rd Apps
 
     # Local Apps
-    'crud_app',
     'equipe',
+    'crud_app',
 ]
 
 MIDDLEWARE = [

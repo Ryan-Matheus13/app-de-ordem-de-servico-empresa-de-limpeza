@@ -28,9 +28,10 @@ class Cliente(models.Model):
 
 
 class Servico(models.Model):
+    
     # Dados do serviço
     nome_do_servico = models.CharField(max_length=60)
-    valor = models.DecimalField(max_digits=6, decimal_places=2)
+    valor = models.DecimalField(max_digits=6, decimal_places=2, null=True)
     descricao = models.TextField()
 
     # Registro
@@ -48,11 +49,12 @@ class Atendimento(models.Model):
     )
 
     # Dados do atendimento
-    servico = models.ForeignKey(Servico, on_delete=models.SET_NULL, null=True, blank=True)
+    servico = models.ForeignKey(Servico, on_delete=models.CASCADE, null=True)
     data_do_servico = models.DateTimeField() 
     situacao = models.CharField(max_length=12, choices=SITUACAO_CHOICES)
     cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, blank=True)
     desconto = models.DecimalField(max_digits=2, decimal_places=0, help_text='Desconto até 10%\n', null=True)
+    valor_total = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     # Registro
     data_do_registro = models.DateTimeField(auto_now_add=True)
@@ -60,3 +62,9 @@ class Atendimento(models.Model):
 
     def __str__(self):
         return f'Atendimento #{self.id}'
+    
+
+    def save(self, *arg, **kwargs):
+        self.valor_total = self.servico.valor - (self.servico.valor * (self.desconto / 100))
+        self.servico.save()
+        return super(Atendimento, self).save(*arg, **kwargs)

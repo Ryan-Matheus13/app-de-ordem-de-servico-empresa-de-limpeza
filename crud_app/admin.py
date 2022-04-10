@@ -30,7 +30,7 @@ class ClienteAdmin(admin.ModelAdmin):
 
 @admin.register(Atendimento)
 class AtendimentoAdmin(admin.ModelAdmin):
-    list_display = ("id", "cliente", "data_do_servico", "servico", "situacao", "servico", "registrado_por", "data_do_registro")
+    list_display = ("id", "cliente", "servico", "valor_final", "situacao","data_do_servico", "data_do_registro", "registrado_por")
     list_display_links = ("cliente",)
     raw_id_fields = ['cliente']
     fieldsets = (
@@ -39,6 +39,8 @@ class AtendimentoAdmin(admin.ModelAdmin):
             'fields': ('cliente', 'servico', 'desconto', 'data_do_servico', 'situacao')
         }),
     )
+    def valor_final(self, obj: Atendimento) -> str:
+        return f'R$ {(obj.valor_total)}'
 
     # Função que captura o usuário logado
     def save_model(self, request, obj, form, change):
